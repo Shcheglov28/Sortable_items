@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Security.Cryptography;
 
 namespace Sortable_Items
 {
@@ -23,7 +24,15 @@ namespace Sortable_Items
                     switch (number)
                     {
                         case 1:
-                            Console.WriteLine("Заглушка пункта 1.");
+                            if (current_sort_folder == null)
+                            {
+                                Console.WriteLine("Choose folder. (3)");
+                                Console.ReadKey();
+                                Console.Clear();
+                                continue;
+                            }
+                            folder_create();
+                            Console.WriteLine("Folders were succesfuly created.");
                             Console.ReadKey();
                             Console.Clear();
                             continue;
@@ -34,9 +43,10 @@ namespace Sortable_Items
                             continue;
                         case 3:
                             current_sort_folder = sort_folder_picker();
-                            if(current_sort_folder != null)
+                            if (current_sort_folder != null)
                             {
                                 Console.WriteLine("Your path was succesfully saved!");
+                                continue;
                             }
                             continue;
                         case 4:
@@ -55,13 +65,13 @@ namespace Sortable_Items
                     Console.WriteLine("Write a number please.");
                     Console.ReadKey();
                     Console.Clear();
-                    continue; 
+                    continue;
                 }
             }
         }
         static string sort_folder_picker() //Метод запрашивания пути к папке.
         {
-            Console.Clear ();
+            Console.Clear();
             Console.WriteLine("Write path to sort_folder");
             string user_folder = Console.ReadLine();
             if (Directory.Exists(user_folder))
@@ -77,11 +87,20 @@ namespace Sortable_Items
             {
                 Console.WriteLine("Path does not exist, try again.");
                 Console.WriteLine("Press any key to go to the Main_menu.");
-                Console.ReadKey ();
+                Console.ReadKey();
                 Console.Clear();
                 return null;
             }
         }
         static string current_sort_folder = null;
+        static void folder_create()
+        {
+            string[] folders = { "Documents", "Phtotos", "Videos", "Other", "Application files", "Archives" };
+            foreach (string folder_name in folders)
+            {
+                string full_path = Path.Combine(current_sort_folder, folder_name);
+                Directory.CreateDirectory(full_path);
+            }
+        }
     }
 }

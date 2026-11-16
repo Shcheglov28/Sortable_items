@@ -102,5 +102,17 @@ namespace Sortable_Items
                 Directory.CreateDirectory(full_path);
             }
         }
+        static void realize_sort()
+        {
+            string[] all_files = Directory.GetFiles(current_sort_folder);
+            foreach (string files in all_files)
+            {
+                Console.WriteLine($"File name: {Path.GetFileName(files)} || Ext: {Path.GetExtension(files)}");
+            }
+
+
+
+
+        }
     }
 }

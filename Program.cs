@@ -35,6 +35,7 @@ namespace Sortable_Items
                             Console.WriteLine("Folders were succesfuly created.");
                             Console.ReadKey();
                             Console.Clear();
+                            realize_sort();
                             continue;
                         case 2:
                             Console.WriteLine("Заглушка пункта 2.");
@@ -150,14 +151,11 @@ namespace Sortable_Items
                     default:
                         target_folder = "Other";
                         break;
-
                 }
                 Console.WriteLine($"file name: {Path.GetFileName(files)} --> Folder name: {target_folder}");
+                string dest_path = Path.Combine(current_sort_folder, target_folder, Path.GetFileName(files));
+                File.Move(files, dest_path);
             }
-
-
-
-
         }
     }
 }

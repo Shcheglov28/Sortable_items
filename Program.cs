@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Security.Cryptography;
 
 namespace Sortable_Items
 {
@@ -38,7 +37,8 @@ namespace Sortable_Items
                             realize_sort();
                             continue;
                         case 2:
-                            Console.WriteLine("Заглушка пункта 2.");
+                            Console.WriteLine($"Developer: https://github.com/Shcheglov28");
+                            Console.WriteLine($"Sort counter: {AllSortItems_Counter}");
                             Console.ReadKey();
                             Console.Clear();
                             continue;
@@ -94,6 +94,7 @@ namespace Sortable_Items
             }
         }
         static string current_sort_folder = null;
+        static int AllSortItems_Counter = 0;
         static void folder_create()
         {
             string[] folders = { "Documents", "Photos", "Videos", "Other", "Application files", "Archives" };
@@ -155,6 +156,9 @@ namespace Sortable_Items
                 Console.WriteLine($"file name: {Path.GetFileName(files)} --> Folder name: {target_folder}");
                 string dest_path = Path.Combine(current_sort_folder, target_folder, Path.GetFileName(files));
                 File.Move(files, dest_path);
+                AllSortItems_Counter++; 
+                Console.ReadKey();
+                Console.Clear();
             }
         }
     }

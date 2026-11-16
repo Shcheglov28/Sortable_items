@@ -95,7 +95,7 @@ namespace Sortable_Items
         static string current_sort_folder = null;
         static void folder_create()
         {
-            string[] folders = { "Documents", "Phtotos", "Videos", "Other", "Application files", "Archives" };
+            string[] folders = { "Documents", "Photos", "Videos", "Other", "Application files", "Archives" };
             foreach (string folder_name in folders)
             {
                 string full_path = Path.Combine(current_sort_folder, folder_name);
@@ -107,7 +107,52 @@ namespace Sortable_Items
             string[] all_files = Directory.GetFiles(current_sort_folder);
             foreach (string files in all_files)
             {
-                Console.WriteLine($"File name: {Path.GetFileName(files)} || Ext: {Path.GetExtension(files)}");
+                string ext = Path.GetExtension(files).ToLower();
+                string target_folder = "";
+                switch (ext)
+                {
+                    case ".txt":
+                    case ".doc":
+                    case ".docx":
+                    case ".pdf":
+                    case ".xls":
+                    case ".xlsx":
+                        target_folder = "Documents";
+                        break;
+
+                    case ".png":
+                    case ".jpg":
+                    case ".jpeg":
+                    case ".ico":
+                    case ".gif":
+                    case ".bmp":
+                        target_folder = "Photos";
+                        break;
+
+                    case ".mp4":
+                    case ".avi":
+                    case ".mkv":
+                    case ".mov":
+                        target_folder = "Videos";
+                        break;
+
+                    case ".msi":
+                    case ".exe":
+                        target_folder = "Application files";
+                        break;
+
+                    case ".zip":
+                    case ".rar":
+                    case ".7z":
+                        target_folder = "Archives";
+                        break;
+
+                    default:
+                        target_folder = "Other";
+                        break;
+
+                }
+                Console.WriteLine($"file name: {Path.GetFileName(files)} --> Folder name: {target_folder}");
             }
 
 

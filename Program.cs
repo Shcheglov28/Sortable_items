@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Text.Json;
 
 namespace Sortable_Items
 {
@@ -8,6 +9,7 @@ namespace Sortable_Items
 
         static void Main(string[] args)
         {
+            //MENU REALIZATION
             while (true)
             {
                 Console.WriteLine("---SORTABLE_ITEMS---");
@@ -38,7 +40,7 @@ namespace Sortable_Items
                             continue;
                         case 2:
                             Console.WriteLine($"Developer: https://github.com/Shcheglov28");
-                            Console.WriteLine($"Sort counter: {AllSortItems_Counter}");
+                            Console.WriteLine($"Sort counter: {current_config.AllSortItems_Counter}");
                             Console.ReadKey();
                             Console.Clear();
                             continue;
@@ -70,7 +72,8 @@ namespace Sortable_Items
                 }
             }
         }
-        static string sort_folder_picker() //Метод запрашивания пути к папке.
+        //SORT FOLDER PICK METHOD
+        static string sort_folder_picker()
         {
             Console.Clear();
             Console.WriteLine("Write path to sort_folder");
@@ -94,7 +97,11 @@ namespace Sortable_Items
             }
         }
         static string current_sort_folder = null;
-        static int AllSortItems_Counter = 0;
+        //DEFAULT
+        static AppConfig current_config = AppConfig.LoadConfig();
+        //STATS COUNTER
+
+        //FOLDER CREATE
         static void folder_create()
         {
             string[] folders = { "Documents", "Photos", "Videos", "Other", "Application files", "Archives" };
@@ -104,6 +111,7 @@ namespace Sortable_Items
                 Directory.CreateDirectory(full_path);
             }
         }
+        //SORT REALIZATION
         static void realize_sort()
         {
             string[] all_files = Directory.GetFiles(current_sort_folder);
@@ -111,6 +119,7 @@ namespace Sortable_Items
             {
                 string ext = Path.GetExtension(files).ToLower();
                 string target_folder = "";
+                //CASES
                 switch (ext)
                 {
                     case ".txt":
@@ -156,10 +165,38 @@ namespace Sortable_Items
                 Console.WriteLine($"file name: {Path.GetFileName(files)} --> Folder name: {target_folder}");
                 string dest_path = Path.Combine(current_sort_folder, target_folder, Path.GetFileName(files));
                 File.Move(files, dest_path);
-                AllSortItems_Counter++; 
-                Console.ReadKey();
-                Console.Clear();
+                current_config.AllSortItems_Counter++;
+                AppConfig.SaveConfig(current_config);
             }
         }
+    }
+
+    class AppConfig
+    {
+        public int AllSortItems_Counter { get; set; }
+        static string config_path = "config.json";
+
+        public static AppConfig LoadConfig()
+        {
+            if (File.Exists(config_path))
+            {
+                string json_text = File.ReadAllText(config_path);
+                AppConfig? loaded_config = JsonSerializer.Deserialize<AppConfig>(json_text);
+                if (loaded_config != null)
+                {
+                    return loaded_config;
+                }
+            }
+            return new AppConfig();
+        }
+        public static void SaveConfig(AppConfig config)
+        {
+            string json_text = JsonSerializer.Serialize(config);
+            File.WriteAllText(config_path, json_text);
+        }
+
+
+
+
     }
 }

@@ -6,9 +6,9 @@ namespace Sortable_Items
 {
     class Program
     {
-
         static void Main(string[] args)
         {
+            Console.ForegroundColor = current_config.TextColor;
             //MENU REALIZATION
             while (true)
             {
@@ -40,6 +40,7 @@ namespace Sortable_Items
                             continue;
                         case 2:
                             Console.WriteLine($"Developer: https://github.com/Shcheglov28");
+                            Console.WriteLine("Instructions: https://github.com/Shcheglov28/Sortable_items/blob/main/README.md");
                             Console.WriteLine($"Sort counter: {current_config.AllSortItems_Counter}");
                             Console.ReadKey();
                             Console.Clear();
@@ -53,9 +54,39 @@ namespace Sortable_Items
                             }
                             continue;
                         case 4:
-                            Console.WriteLine("Заглушка пункта 4.");
-                            Console.ReadKey();
-                            Console.Clear();
+                            Console.WriteLine("Choose color:");
+                            Console.WriteLine("1 - Red");
+                            Console.WriteLine("2 - Green");
+                            Console.WriteLine("3 - Blue");
+                            Console.WriteLine("4 - Yellow");
+                            string ColorInput = Console.ReadLine();
+                            switch (ColorInput)
+                            {
+                                case "1":
+                                    current_config.TextColor = ConsoleColor.Red;
+                                    Console.Clear();
+                                    Console.ForegroundColor = current_config.TextColor;
+                                    AppConfig.SaveConfig(current_config);
+                                    continue;
+                                case "2":
+                                    current_config.TextColor = ConsoleColor.Green;
+                                    Console.Clear();
+                                    Console.ForegroundColor = current_config.TextColor;
+                                    AppConfig.SaveConfig(current_config);
+                                    continue;
+                                case "3":
+                                    current_config.TextColor = ConsoleColor.Blue;
+                                    Console.Clear();
+                                    Console.ForegroundColor = current_config.TextColor;
+                                    AppConfig.SaveConfig(current_config);
+                                    continue;
+                                case "4":
+                                    current_config.TextColor = ConsoleColor.Yellow;
+                                    Console.Clear();
+                                    Console.ForegroundColor = current_config.TextColor;
+                                    AppConfig.SaveConfig(current_config);
+                                    continue;
+                            }
                             continue;
                         case 0:
                             Console.Clear();
@@ -166,13 +197,14 @@ namespace Sortable_Items
                 string dest_path = Path.Combine(current_sort_folder, target_folder, Path.GetFileName(files));
                 File.Move(files, dest_path);
                 current_config.AllSortItems_Counter++;
-                AppConfig.SaveConfig(current_config);
             }
+            AppConfig.SaveConfig(current_config);
         }
     }
 
     class AppConfig
     {
+        public ConsoleColor TextColor { get; set; } = ConsoleColor.White;
         public int AllSortItems_Counter { get; set; }
         static string config_path = "config.json";
 
@@ -194,9 +226,5 @@ namespace Sortable_Items
             string json_text = JsonSerializer.Serialize(config);
             File.WriteAllText(config_path, json_text);
         }
-
-
-
-
     }
 }

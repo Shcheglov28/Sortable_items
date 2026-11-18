@@ -196,13 +196,14 @@ namespace Sortable_Items
                 Console.WriteLine($"file name: {Path.GetFileName(files)} --> Folder name: {target_folder}");
                 string dest_path = Path.Combine(current_sort_folder, target_folder, Path.GetFileName(files));
                 File.Move(files, dest_path);
+                Logs.LogMove(Path.GetFileName(files), target_folder);
                 current_config.AllSortItems_Counter++;
             }
             AppConfig.SaveConfig(current_config);
         }
     }
 
-    class AppConfig
+    class AppConfig //JSONCFG
     {
         public ConsoleColor TextColor { get; set; } = ConsoleColor.White;
         public int AllSortItems_Counter { get; set; }
@@ -227,4 +228,18 @@ namespace Sortable_Items
             File.WriteAllText(config_path, json_text);
         }
     }
+    class Logs //LOGS
+    {
+        static string log_path = Path.Combine(AppContext.BaseDirectory, "sort_log.txt");
+
+        public static void LogMove(string fileName, string targetFolder)
+        {
+            string line = $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] \"{fileName}\" перенесён в \"{targetFolder}\"";
+            File.AppendAllText(log_path, line + Environment.NewLine);
+        }
+    }
+
+
+
+
 }

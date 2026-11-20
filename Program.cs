@@ -73,7 +73,7 @@ namespace Sortable_Items
                             Console.WriteLine("2 - Green");
                             Console.WriteLine("3 - Blue");
                             Console.WriteLine("4 - Yellow");
-                            string ColorInput = Console.ReadLine() ?? string.Empty;
+                            string ColorInput = Console.ReadLine()?.Trim() ?? string.Empty;
                             switch (ColorInput)
                             {
                                 case "1":
@@ -100,8 +100,12 @@ namespace Sortable_Items
                                     Console.ForegroundColor = current_config.TextColor;
                                     AppConfig.SaveConfig(current_config);
                                     continue;
+                                default:
+                                    Console.WriteLine("Unknown color. Choose 1-4.");
+                                    Console.ReadKey();
+                                    Console.Clear();
+                                    continue;
                             }
-                            continue;
                         case 0:
                             Console.Clear();
                             Console.WriteLine("GoodBye.");

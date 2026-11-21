@@ -9,11 +9,11 @@ namespace Sortable_Items
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
             "Sortable_Items");
 
-        public static string ConfigPath => Path.Combine(app_data_folder, "config.json");
+        public static string config_path => Path.Combine(app_data_folder, "config.json");
 
-        public static string LogPath => Path.Combine(app_data_folder, "sort_log.txt");
+        public static string log_path => Path.Combine(app_data_folder, "sort_log.txt");
 
-        public static string EnsureFolder()
+        public static string ensure_folder()
         {
             Directory.CreateDirectory(app_data_folder);
             return app_data_folder;

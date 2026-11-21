@@ -7,7 +7,7 @@ namespace Sortable_Items
     {
         static void Main(string[] args)
         {
-            Console.ForegroundColor = current_config.TextColor;
+            Console.ForegroundColor = current_config.text_color;
             //MENU REALIZATION
             while (true)
             {
@@ -45,7 +45,7 @@ namespace Sortable_Items
                             Console.ReadKey();
                             Console.Clear();
                             SortResult result = realize_sort();
-                            Console.WriteLine($"Sorted: {result.Moved}. Skipped: {result.Failed}.");
+                            Console.WriteLine($"Sorted: {result.moved}. Skipped: {result.failed}.");
                             Console.WriteLine("Press any key to return to the menu . . .");
                             Console.ReadKey();
                             Console.Clear();
@@ -53,7 +53,7 @@ namespace Sortable_Items
                         case 2:
                             Console.WriteLine($"Developer: https://github.com/Shcheglov28");
                             Console.WriteLine("Instructions: https://github.com/Shcheglov28/Sortable_items/blob/main/README.md");
-                            Console.WriteLine($"Sort counter: {current_config.AllSortItems_Counter}");
+                            Console.WriteLine($"Sort counter: {current_config.all_sort_items_counter}");
                             Console.ReadKey();
                             Console.Clear();
                             continue;
@@ -61,8 +61,8 @@ namespace Sortable_Items
                             current_sort_folder = sort_folder_picker();
                             if (current_sort_folder != null)
                             {
-                                current_config.SortFolder = current_sort_folder;
-                                AppConfig.SaveConfig(current_config);
+                                current_config.sort_folder = current_sort_folder;
+                                AppConfig.save_config(current_config);
                                 Console.WriteLine("Your path was succesfully saved!");
                                 continue;
                             }
@@ -73,32 +73,32 @@ namespace Sortable_Items
                             Console.WriteLine("2 - Green");
                             Console.WriteLine("3 - Blue");
                             Console.WriteLine("4 - Yellow");
-                            string ColorInput = Console.ReadLine()?.Trim() ?? string.Empty;
-                            switch (ColorInput)
+                            string color_input = Console.ReadLine()?.Trim() ?? string.Empty;
+                            switch (color_input)
                             {
                                 case "1":
-                                    current_config.TextColor = ConsoleColor.Red;
+                                    current_config.text_color = ConsoleColor.Red;
                                     Console.Clear();
-                                    Console.ForegroundColor = current_config.TextColor;
-                                    AppConfig.SaveConfig(current_config);
+                                    Console.ForegroundColor = current_config.text_color;
+                                    AppConfig.save_config(current_config);
                                     continue;
                                 case "2":
-                                    current_config.TextColor = ConsoleColor.Green;
+                                    current_config.text_color = ConsoleColor.Green;
                                     Console.Clear();
-                                    Console.ForegroundColor = current_config.TextColor;
-                                    AppConfig.SaveConfig(current_config);
+                                    Console.ForegroundColor = current_config.text_color;
+                                    AppConfig.save_config(current_config);
                                     continue;
                                 case "3":
-                                    current_config.TextColor = ConsoleColor.Blue;
+                                    current_config.text_color = ConsoleColor.Blue;
                                     Console.Clear();
-                                    Console.ForegroundColor = current_config.TextColor;
-                                    AppConfig.SaveConfig(current_config);
+                                    Console.ForegroundColor = current_config.text_color;
+                                    AppConfig.save_config(current_config);
                                     continue;
                                 case "4":
-                                    current_config.TextColor = ConsoleColor.Yellow;
+                                    current_config.text_color = ConsoleColor.Yellow;
                                     Console.Clear();
-                                    Console.ForegroundColor = current_config.TextColor;
-                                    AppConfig.SaveConfig(current_config);
+                                    Console.ForegroundColor = current_config.text_color;
+                                    AppConfig.save_config(current_config);
                                     continue;
                                 default:
                                     Console.WriteLine("Unknown color. Choose 1-4.");
@@ -128,11 +128,11 @@ namespace Sortable_Items
         }
 
         //DEFAULT
-        static AppConfig current_config = AppConfig.LoadConfig();
+        static AppConfig current_config = AppConfig.load_config();
         //RESTORED SORT FOLDER
         static string? current_sort_folder =
-            !string.IsNullOrWhiteSpace(current_config.SortFolder) && Directory.Exists(current_config.SortFolder)
-                ? current_config.SortFolder
+            !string.IsNullOrWhiteSpace(current_config.sort_folder) && Directory.Exists(current_config.sort_folder)
+                ? current_config.sort_folder
                 : null;
     }
 }

@@ -6,30 +6,30 @@ namespace Sortable_Items
 {
     class Logs //LOGS
     {
-        public static void LogMove(string fileName, string targetFolder)
+        public static void log_move(string file_name, string target_folder, long size)
         {
-            string line = $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] \"{fileName}\" перенесён в \"{targetFolder}\"";
-            Write(line);
+            string line = $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] \"{file_name}\" ({SizeFormatter.format(size)}) перенесён в \"{target_folder}\"";
+            write(line);
         }
 
-        public static void LogError(string message)
+        public static void log_error(string message)
         {
             string line = $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] ERROR: {message}";
-            Write(line);
+            write(line);
         }
 
-        public static void LogSummary(int moved, int failed)
+        public static void log_summary(int moved, int failed)
         {
             string line = $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] Итого: перенесено {moved}, ошибок {failed}";
-            Write(line);
+            write(line);
         }
 
-        static void Write(string line)
+        static void write(string line)
         {
             try
             {
-                AppPaths.EnsureFolder();
-                File.AppendAllText(AppPaths.LogPath, line + Environment.NewLine);
+                AppPaths.ensure_folder();
+                File.AppendAllText(AppPaths.log_path, line + Environment.NewLine);
             }
             catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
             {
